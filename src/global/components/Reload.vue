@@ -7,7 +7,7 @@
       >
     </div>
     <div class="buttons flex align-middle mt-2 md:mt-0">
-      <button v-if="needRefresh" @click="updated()" class="button">
+      <button v-if="needRefresh" @click="updateServiceWorker()" class="button">
         Reload
       </button>
       <button @click="close" class="button">Close</button>
@@ -18,7 +18,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useRegisterSW } from "virtual:pwa-register/vue";
-// const { updateServiceWorker } = useRegisterSW();
+const { updateServiceWorker } = useRegisterSW();
 export default defineComponent({
   name: "ReloadPWA",
   setup() {
@@ -27,20 +27,16 @@ export default defineComponent({
       offlineReady.value = false;
       needRefresh.value = false;
     };
-
-    const updated = async () => {
-      await updateServiceWorker();
-    };
-    return { offlineReady, needRefresh, updated, close };
+    return { offlineReady, needRefresh, updateServiceWorker, close };
   },
-  // methods: {
-  //   async close() {
-  //     this.offlineReady.value = false;
-  //     this.needRefresh.value = false;
-  //   },
-  //   async updateServiceWorker() {
-  //     await updateServiceWorker();
-  //   },
-  // },
+  methods: {
+    async close() {
+      this.offlineReady.value = false;
+      this.needRefresh.value = false;
+    },
+    async updateServiceWorker() {
+      await updateServiceWorker();
+    },
+  },
 });
 </script>
