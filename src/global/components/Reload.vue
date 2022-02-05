@@ -30,9 +30,9 @@ export default defineComponent({
     return { offlineReady, needRefresh, updateServiceWorker, close };
   },
   methods: {
-    async close() {
-      this.offlineReady.value = false;
-      this.needRefresh.value = false;
+    async close(): Promise<void> {
+      this.offlineReady = false;
+      this.needRefresh = false;
     },
     async updateServiceWorker() {
       await updateServiceWorker();
